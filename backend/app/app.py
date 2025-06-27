@@ -1,7 +1,8 @@
 # backend/app.py
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from openfoodfacts_api import get_product_by_barcode
 import os
 
 # Inicializa la aplicación Flask
@@ -67,6 +68,64 @@ def home():
     Ruta de inicio para verificar que el servidor está funcionando.
     """
     return jsonify({"message": "¡Bienvenido al backend de tu startup! Flask está funcionando."})
+
+@app.route('/api/products/search', methods=['GET'])
+def search_product():
+    barcode = request.args.get('barcode') # Obtiene el código de barras de los parámetros de la URL (?barcode=...)
+
+    if not barcode:
+        return jsonify({"error": "Se requiere un código de barras para la búsqueda."}), 400
+
+    # 1. Intentar buscar el producto en nuestra propia base de datos
+    product = Product.query.filter_by(barcode=barcode).first()
+
+    if product:
+        # Si el producto ya está en nuestra BD, lo devolvemos
+        print(f"Producto {barcode} encontrado en la base de datos local.")
+        return jsonify({
+            "id": product.id,
+            "barcode": product.barcode,
+            "name": product.name,
+            "nutriscore": product.nutriscore,
+            "ecoscore": product.ecoscore,
+            "category": product.category
+        })
+    else:
+        # 2. Si no está en nuestra BD, buscar en Open Food Facts
+        print(f"Producto {barcode} no encontrado localmente, buscando en Open Food Facts...")
+        off_product_data = get_product_by_barcode(barcode)
+
+        if off_product_data:
+            # 3. Si se encuentra en Open Food Facts, guardarlo en nuestra BD
+            try:
+                new_product = Product(
+                    barcode=off_product_data['barcode'],
+                    name=off_product_data['name'],
+                    nutriscore=off_product_data['nutriscore'],
+                    ecoscore=off_product_data['ecoscore'],
+                    category=off_product_data['category']
+                )
+                db.session.add(new_product)
+                db.session.commit()
+                print(f"Producto {barcode} guardado exitosamente desde Open Food Facts.")
+
+                # Devolver la información del producto recién guardado
+                return jsonify({
+                    "id": new_product.id,
+                    "barcode": new_product.barcode,
+                    "name": new_product.name,
+                    "nutriscore": new_product.nutriscore,
+                    "ecoscore": new_product.ecoscore,
+                    "category": new_product.category
+                }), 201 # 201 Created
+            except Exception as e:
+                db.session.rollback() # Deshacer si hay un error al guardar
+                print(f"Error al guardar el producto {barcode} en la base de datos: {e}")
+                return jsonify({"error": "Error interno al guardar el producto."}), 500
+        else:
+            # 4. Si no se encuentra en ningún sitio
+            return jsonify({"message": f"Producto con código de barras '{barcode}' no encontrado."}), 404
+
 
 # --- Punto de entrada para ejecutar la aplicación ---
 if __name__ == '__main__':
