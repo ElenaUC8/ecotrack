@@ -31,12 +31,7 @@ def test_load_emission_factors_from_file(file_path=EMISSION_FACTORS_FILE):
             print(f"Error: Formato de archivo no soportado para '{file_path}'. Se esperan .csv o .xlsx")
             return False, "Formato de archivo no soportado"
 
-        print("Primeras 5 filas de los datos cargados:")
-        print(df.head().to_string()) # .to_string() para imprimir bien en consola
-        print(f"\nEl DataFrame tiene {len(df)} filas y {len(df.columns)} columnas.")
-        
-        # Aquí puedes añadir lógica para procesar los datos específicos que necesites
-        # Por ejemplo, buscar un factor de emisión concreto.
+       
         
         return True, df.to_dict('records') # Devuelve el DataFrame como una lista de diccionarios
     except Exception as e:
