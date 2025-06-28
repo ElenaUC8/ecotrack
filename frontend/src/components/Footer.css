@@ -1,0 +1,13 @@
+/* src/components/Footer.css */
+.app-footer {
+  background-color: #333; /* Gris oscuro */
+  color: white;
+  text-align: center;
+  padding: 1.5rem 2rem;
+  margin-top: auto; /* Para empujar el footer al final de la página */
+  font-size: 0.9rem;
+}
+
+.app-footer p {
+  margin: 0.5rem 0;
+}
