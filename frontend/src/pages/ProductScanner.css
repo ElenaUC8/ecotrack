@@ -1,2 +1,113 @@
 /* src/pages/ProductScanner.css */
-/* Estilos para el escáner de productos */
+.product-scanner-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.product-scanner-container h2 {
+  color: #4CAF50;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.product-search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.product-search-form .form-group {
+  text-align: left;
+}
+
+.product-search-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-search-form input[type="text"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.product-search-form input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+.search-button, .favorite-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+.search-button:hover, .favorite-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.search-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.product-details {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.product-details h3 {
+  color: #333;
+  margin-top: 0;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.product-details p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.product-details strong {
+  color: #333;
+}
+
+.login-prompt {
+  color: #888;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.error-message {
+  color: #d9534f;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  margin-top: 1rem; /* Asegura espacio si aparece después del formulario */
+}
