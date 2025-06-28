@@ -4,11 +4,12 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from openfoodfacts_api import get_product_by_barcode
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 import os
 
 # Inicializa la aplicación Flask
 app = Flask(__name__)
-
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 # --- Configuración de la Base de Datos ---
 # Define la ruta de la base de datos SQLite
 # Usaremos un archivo 'site.db' en la misma carpeta del proyecto

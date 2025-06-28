@@ -1,0 +1,14 @@
+/* src/pages/Dashboard.css */
+/* Estilos básicos para la página de Dashboard si los necesitas */
+section {
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+section h2 {
+  color: #4CAF50;
+  margin-bottom: 15px;
+}
