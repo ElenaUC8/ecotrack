@@ -1,2 +1,79 @@
 /* src/pages/Favorites.css */
-/* Estilos para la página de favoritos */
+.favorites-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.favorites-container h2 {
+  color: #4CAF50;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.favorites-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.favorite-item {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.favorite-item:hover {
+  transform: translateY(-5px);
+}
+
+.favorite-item h3 {
+  color: #333;
+  margin-top: 0;
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.favorite-item p {
+  margin-bottom: 0.4rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.favorite-item strong {
+  color: #333;
+}
+
+.error-message {
+  color: #d9534f;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+.remove-favorite-button {
+  background-color: #dc3545; /* Rojo para eliminar */
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-favorite-button:hover {
+  background-color: #c82333;
+}
