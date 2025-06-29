@@ -5,8 +5,7 @@ import os
 # Asegúrate de que esta importación sea correcta según dónde tengas 'app.py' y 'load_emissions_data.py'
 # Si app.py está en 'backend/app/' y este script en 'backend/', usa:
 from app import app, db, RegionalCo2Emission
-# Si ambos están en 'backend/', usa:
-# from app import app, db, RegionalCo2Emission
+
 
 
 def load_emissions_from_csv(file_path):
