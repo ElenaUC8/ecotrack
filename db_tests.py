@@ -45,8 +45,7 @@ def create_db_and_tables(db_name=':memory:'):
     
     conn.commit()
     return conn
-
-# --- Operaciones CRUD para la tabla PRODUCTS ---
+#Operaciones CRUD para la tabla PRODUCTS
 def add_product(conn, barcode, name, nutriscore=None, ecoscore=None, product_category=None, raw_json_data=None):
     cursor = conn.cursor()
     try:
@@ -67,7 +66,7 @@ def add_product(conn, barcode, name, nutriscore=None, ecoscore=None, product_cat
 def get_product_by_barcode(conn, barcode):
     cursor = conn.cursor()
     cursor.execute('SELECT id, barcode, name, nutriscore, ecoscore, product_category FROM products WHERE barcode = ?', (barcode,))
-    return cursor.fetchone() # Retorna la primera fila encontrada
+    return cursor.fetchone() 
 
 def update_product_ecoscore(conn, barcode, new_ecoscore):
     cursor = conn.cursor()
@@ -91,7 +90,7 @@ def delete_product(conn, barcode):
         print(f"[PRODUCTOS] No encontrado para eliminar: '{barcode}'")
         return False
 
-# --- Operaciones CRUD para la tabla REGIONAL_CO2_EMISSIONS ---
+#Operaciones CRUD para la tabla REGIONAL_CO2_EMISSIONS
 def add_regional_emission(conn, region_name, year, total_co2_tonnes):
     cursor = conn.cursor()
     try:
@@ -115,7 +114,7 @@ def get_regional_emissions(conn, region_name, year=None):
         cursor.execute('SELECT id, region_name, year, total_co2_tonnes FROM regional_co2_emissions WHERE region_name = ? AND year = ?', (region_name, year))
     else:
         cursor.execute('SELECT id, region_name, year, total_co2_tonnes FROM regional_co2_emissions WHERE region_name = ?', (region_name,))
-    return cursor.fetchall() # Retorna todas las filas que coincidan
+    return cursor.fetchall() 
 
 def update_regional_emission(conn, region_name, year, new_total_co2_tonnes):
     cursor = conn.cursor()
@@ -143,7 +142,7 @@ def delete_regional_emission(conn, region_name, year):
         print(f"[EMISIONES] No encontrado para eliminar: '{region_name}' en {year}")
         return False
 
-# --- Operaciones CRUD básicas para la tabla USERS (para completar el ERD) ---
+#Operaciones CRUD básicas para la tabla USERS (para completar el ERD)
 def add_user(conn, username, email, password):
     cursor = conn.cursor()
     password_hash = hashlib.sha256(password.encode()).hexdigest() # Hash simple de la contraseña
@@ -185,7 +184,7 @@ def delete_user(conn, username):
         return False
 
 
-# --- Ejecución de los Tests ---
+#Ejecución de los Tests
 if __name__ == '__main__':
     print("--- Iniciando tests de Diseño de Base de Datos y CRUD ---")
     

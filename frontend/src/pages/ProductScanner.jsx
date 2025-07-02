@@ -1,20 +1,18 @@
-// src/pages/ProductScanner.jsx
 import React, { useState, useEffect } from 'react';
-import './ProductScanner.css'; // Crearemos este archivo para estilos específicos
+import './ProductScanner.css';
 
 function ProductScanner() {
   const [barcode, setBarcode] = useState('');
-  const [product, setProduct] = useState(null); // Para almacenar los datos del producto encontrado
+  const [product, setProduct] = useState(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Para indicar que la búsqueda está en curso
+  const [loading, setLoading] = useState(false); 
 
-  // Obtener el user_id del localStorage para las operaciones de favoritos
   const userId = localStorage.getItem('user_id');
 
   const handleSearch = async (event) => {
     event.preventDefault();
     setError('');
-    setProduct(null); // Limpiar producto anterior
+    setProduct(null); 
     setLoading(true);
 
     if (!barcode) {

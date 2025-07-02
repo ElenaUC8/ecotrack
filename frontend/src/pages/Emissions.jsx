@@ -1,18 +1,17 @@
-// src/pages/Emissions.jsx
 import React, { useState } from 'react';
-import './Emissions.css'; // Crearemos este archivo para estilos específicos
+import './Emissions.css'; 
 
 function Emissions() {
   const [year, setYear] = useState('');
   const [region, setRegion] = useState('');
-  const [emissionData, setEmissionData] = useState(null); // Para almacenar los datos de emisión
+  const [emissionData, setEmissionData] = useState(null); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSearch = async (event) => {
     event.preventDefault();
     setError('');
-    setEmissionData(null); // Limpiar datos anteriores
+    setEmissionData(null); 
     setLoading(true);
 
     if (!year || !region) {
@@ -55,7 +54,6 @@ function Emissions() {
             required
           >
             <option value="">Selecciona un año</option>
-            {/* Puedes ajustar los años según los datos disponibles en tu backend/API externa */}
             <option value="1990">1990</option>
             <option value="1991">1991</option>
             <option value="1992">1992</option>

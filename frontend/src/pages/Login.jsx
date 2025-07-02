@@ -1,7 +1,6 @@
-// src/pages/Login.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Auth.css'; // Usaremos el mismo CSS
+import './Auth.css'; 
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -31,12 +30,10 @@ function Login() {
       console.log('Inicio de sesión exitoso:', data);
       alert('¡Bienvenido, ' + username + '!');
 
-      // En una aplicación real, aquí guardarías el 'user_id' o un token JWT
-      // Por ahora, lo guardamos en el localStorage para simular el "estar logueado"
       localStorage.setItem('user_id', data.user_id);
       localStorage.setItem('username', username);
 
-      navigate('/'); // Redirige al usuario al Dashboard
+      navigate('/'); 
 
     } catch (err) {
       console.error('Error al iniciar sesión:', err.message);

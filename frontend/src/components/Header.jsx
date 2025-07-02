@@ -1,6 +1,5 @@
-// src/components/Header.jsx
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { Link, useNavigate } from 'react-router-dom'; 
 import './Header.css';
 
 function Header() {
@@ -8,8 +7,7 @@ function Header() {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
-  // useEffect se ejecuta después de cada renderizado.
-  // Aquí lo usamos para verificar si el usuario está logueado al cargar el componente.
+  
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
     const storedUsername = localStorage.getItem('username');
@@ -20,26 +18,26 @@ function Header() {
       setIsLoggedIn(false);
       setUsername('');
     }
-  }, []); // El array vacío [] asegura que esto solo se ejecute una vez al montar el componente
+  }, []); 
 
   const handleLogout = () => {
-    localStorage.removeItem('user_id'); // Elimina el ID del usuario
-    localStorage.removeItem('username'); // Elimina el nombre de usuario
+    localStorage.removeItem('user_id'); 
+    localStorage.removeItem('username'); 
     setIsLoggedIn(false);
     setUsername('');
     alert('Has cerrado sesión.');
-    navigate('/login'); // Redirige al login o a la página de inicio
+    navigate('/login'); 
   };
 
   return (
     <header className="app-header">
-      <h1><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Ecotrack 🌿</Link></h1> {/* Título como link */}
+      <h1><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Ecotrack 🌿</Link></h1> 
       <nav>
         <ul className="nav-list">
           <li><Link to="/">Dashboard</Link></li>
-          <li><Link to="/scan-product">Escanear Producto</Link></li> {/* Nuevo enlace */}
+          <li><Link to="/scan-product">Escanear Producto</Link></li> 
           {isLoggedIn && <li><Link to="/favorites">Mis Favoritos</Link></li>} {/* Mostrar solo si logueado */}
-          <li><Link to="/emissions">Emisiones CO2</Link></li> {/* Nuevo enlace */}
+          <li><Link to="/emissions">Emisiones CO2</Link></li> 
         
 
           {!isLoggedIn ? (

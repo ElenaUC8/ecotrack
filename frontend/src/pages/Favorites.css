@@ -1,4 +1,3 @@
-/* src/pages/Favorites.css */
 .favorites-container {
   max-width: 800px;
   margin: 2rem auto;
@@ -17,7 +16,7 @@
 
 .favorites-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
   gap: 1.5rem;
   margin-top: 2rem;
 }
@@ -63,7 +62,7 @@
 }
 
 .remove-favorite-button {
-  background-color: #dc3545; /* Rojo para eliminar */
+  background-color: #dc3545; 
   color: white;
   padding: 0.6rem 1rem;
   border: none;

@@ -2,17 +2,15 @@
 
 import pandas as pd
 import os
-# Asegúrate de que esta importación sea correcta según dónde tengas 'app.py' y 'load_emissions_data.py'
-# Si app.py está en 'backend/app/' y este script en 'backend/', usa:
 from app import app, db, RegionalCo2Emission
 
 
 
 def load_emissions_from_csv(file_path):
-    """
-    Carga los datos de emisiones de CO2 desde un archivo CSV a la base de datos.
-    Esta función asume que se llama dentro de un `app.app_context()`.
-    """
+    
+    #Carga los datos de emisiones de CO2 desde un archivo CSV a la base de datos.
+    #Esta función asume que se llama dentro de un `app.app_context()`.
+
     try:
         df = pd.read_csv(file_path, sep=';', encoding='latin1', skiprows=3, index_col=0)
 
@@ -43,10 +41,9 @@ def load_emissions_from_csv(file_path):
                 print(f"Advertencia: No se pudo convertir el año '{year_col}' o valor '{value}' a número. Saltando.")
                 continue
 
-        # --- SOLUCIÓN INTEGRITYERROR: Eliminar datos existentes antes de la carga ---
-        # Si esta función se ejecuta dentro de un app_context, db.session ya es accesible
+        
         db.session.query(RegionalCo2Emission).filter_by(region_name='C.A. de Euskadi').delete()
-        db.session.commit() # Confirma la eliminación antes de añadir nuevos
+        db.session.commit() 
         print("Datos existentes de C.A. de Euskadi eliminados antes de la carga (si los había).")
 
         # Añadir todos los nuevos registros
@@ -59,22 +56,15 @@ def load_emissions_from_csv(file_path):
     except pd.errors.EmptyDataError:
         print(f"Error: El archivo CSV '{file_path}' está vacío.")
     except Exception as e:
-        # Aunque el rollback aquí estará dentro del contexto, la causa raíz es el IntegrityError
-        # y la solución principal es evitar que ocurra al eliminar duplicados.
         print(f"Ocurrió un error inesperado durante la carga de datos: {e}")
         db.session.rollback() # Deshacer si hay un error al añadir
 
 
 if __name__ == '__main__':
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Asegúrate de que esta ruta sea correcta dependiendo de dónde esté 'load_emissions_data.py'
-    # Si load_emissions_data.py está en 'backend/' y 'data/' también, entonces:
     csv_file_path = os.path.join(current_dir, '..', 'data', 'BIG-TAB.4.07.19_c.csv')
-    # Si load_emissions_data.py está en 'backend/app/' y 'data/' está en 'backend/', entonces:
-    # csv_file_path = os.path.join(current_dir, '..', 'data', 'BIG-TAB.4.07.19_c.csv')
-
-    # --- SOLUCIÓN RUNTIMEERROR: Envuelve todo en un contexto de aplicación ---
+   
     with app.app_context():
-        db.create_all() # Asegura que las tablas estén creadas
+        db.create_all() 
         print("Base de datos y tablas creadas (si no existían).")
         load_emissions_from_csv(csv_file_path)

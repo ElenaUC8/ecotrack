@@ -4,8 +4,6 @@ import pandas as pd
 import os
 
 # --- Fuente de Datos 1: Leer un archivo local de Factores de Emisión ---
-# Define la ruta a tu archivo CSV o XLSX descargado
-# Asegúrate de que el nombre del archivo coincida con el que descargues
 EMISSION_FACTORS_FILE = "BIG-TAB.4.07.19_c.csv" 
 
 def test_load_emission_factors_from_file(file_path=EMISSION_FACTORS_FILE):
@@ -67,9 +65,6 @@ def test_fetch_product_data_openfoodfacts(barcode="737628064502"): # Ejemplo: C�
 
 if __name__ == "__main__":
     print("--- Ejecutando tests de acceso a datos ---")
-    
-    # Prueba de carga de Factores de Emisión desde archivo
-    # Asegúrate de cambiar 'tu_archivo_de_emisiones.csv' por el nombre de tu archivo descargado
     success_emission_factors, _ = test_load_emission_factors_from_file(EMISSION_FACTORS_FILE)
     if success_emission_factors:
         print("\nTest de carga de factores de emisión desde archivo pasó.")

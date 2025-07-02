@@ -1,6 +1,5 @@
-/* src/components/Header.css */
 .app-header {
-  background-color: #4CAF50; /* Verde vibrante */
+  background-color: #4CAF50; 
   color: white;
   padding: 1rem 2rem;
   display: flex;

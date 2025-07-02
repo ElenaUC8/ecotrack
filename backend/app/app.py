@@ -11,16 +11,14 @@ import os
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 # --- Configuración de la Base de Datos ---
-# Define la ruta de la base de datos SQLite
-# Usaremos un archivo 'site.db' en la misma carpeta del proyecto
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'site.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Desactiva el seguimiento de modificaciones de objetos (consume menos memoria)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 # Inicializa la extensión de SQLAlchemy
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-# --- Definición de Modelos de Base de Datos ---
+
 
 
 user_favorites = db.Table('user_favorites',
@@ -31,18 +29,18 @@ user_favorites = db.Table('user_favorites',
 
 
 class User(db.Model):
-    __tablename__ = 'users' # Nombre de la tabla explícito
+    __tablename__ = 'users' 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False) # <-- Campo para el hash de la contraseña
+    password_hash = db.Column(db.String(128), nullable=False) 
     favorites = db.relationship('Product', secondary=user_favorites,
                                 backref=db.backref('favorited_by_users', lazy='dynamic'))
 
     def __repr__(self):
         return f'<User {self.username}>'
 
-    # Métodos para verificar y guardar contraseñas
+    
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -51,20 +49,20 @@ class User(db.Model):
 
 
 class Product(db.Model):
-    __tablename__ = 'products' # Nombre de la tabla explícito
+    __tablename__ = 'products' 
     id = db.Column(db.Integer, primary_key=True)
-    barcode = db.Column(db.String(13), unique=True, nullable=False) # Código de barras (EAN-13)
+    barcode = db.Column(db.String(13), unique=True, nullable=False) 
     name = db.Column(db.String(255), nullable=False)
-    nutriscore = db.Column(db.String(1), nullable=True) # A, B, C, D, E
-    ecoscore = db.Column(db.String(2), nullable=True)   # A+, A, B, C, D, E (A+ para mayor granularidad)
-    category = db.Column(db.String(100), nullable=True) # Bebidas, Lácteos, etc.
-    # Puedes añadir más campos si los necesitas del JSON de Open Food Facts, ej. brand, image_url, etc.
+    nutriscore = db.Column(db.String(1), nullable=True) 
+    ecoscore = db.Column(db.String(2), nullable=True)   
+    category = db.Column(db.String(100), nullable=True) 
+    
 
     def __repr__(self):
         return f'<Product {self.name} ({self.barcode})>'
 
 class RegionalCo2Emission(db.Model):
-    __tablename__ = 'regional_co2_emissions' # Nombre de la tabla explícito
+    __tablename__ = 'regional_co2_emissions' 
     id = db.Column(db.Integer, primary_key=True)
     region_name = db.Column(db.String(100), nullable=False)
     year = db.Column(db.Integer, nullable=False)
@@ -77,7 +75,7 @@ class RegionalCo2Emission(db.Model):
         return f'<Emission {self.region_name} {self.year}: {self.total_co2_tonnes} tonnes>'
 
 
-# --- Ruta de prueba (dejamos la misma por ahora) ---
+
 @app.route('/')
 def home():
     """
@@ -133,9 +131,9 @@ def search_product():
                     "nutriscore": new_product.nutriscore,
                     "ecoscore": new_product.ecoscore,
                     "category": new_product.category
-                }), 201 # 201 Created
+                }), 201 
             except Exception as e:
-                db.session.rollback() # Deshacer si hay un error al guardar
+                db.session.rollback() 
                 print(f"Error al guardar el producto {barcode} en la base de datos: {e}")
                 return jsonify({"error": "Error interno al guardar el producto."}), 500
         else:
@@ -173,7 +171,7 @@ def get_emissions():
 
 @app.route('/api/users/register', methods=['POST'])
 def register_user():
-    data = request.get_json() # Obtiene los datos JSON enviados en el cuerpo de la petición
+    data = request.get_json() 
 
     username = data.get('username')
     email = data.get('email')
@@ -185,7 +183,7 @@ def register_user():
     # Verificar si el usuario o el email ya existen
     existing_user = User.query.filter_by(username=username).first()
     if existing_user:
-        return jsonify({"error": "El nombre de usuario ya existe."}), 409 # 409 Conflict
+        return jsonify({"error": "El nombre de usuario ya existe."}), 409 
 
     existing_email = User.query.filter_by(email=email).first()
     if existing_email:
@@ -198,7 +196,7 @@ def register_user():
     try:
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"message": "Usuario registrado exitosamente.", "user_id": new_user.id}), 201 # 201 Created
+        return jsonify({"message": "Usuario registrado exitosamente.", "user_id": new_user.id}), 201 
     except Exception as e:
         db.session.rollback()
         print(f"Error al registrar usuario: {e}")
@@ -217,11 +215,9 @@ def login_user():
     user = User.query.filter_by(username=username).first()
 
     if user and user.check_password(password):
-        # En una aplicación real, aquí generarías un token JWT o iniciarías una sesión.
-        # Por ahora, simplemente confirmamos el login exitoso.
         return jsonify({"message": "Inicio de sesión exitoso.", "user_id": user.id}), 200
     else:
-        return jsonify({"error": "Nombre de usuario o contraseña incorrectos."}), 401 # 401 Unauthorized
+        return jsonify({"error": "Nombre de usuario o contraseña incorrectos."}), 401 
 
 @app.route('/api/users/<int:user_id>/favorites', methods=['POST'])
 def add_favorite(user_id):
@@ -238,7 +234,7 @@ def add_favorite(user_id):
     # Primero, busca el producto en la base de datos local
     product = Product.query.filter_by(barcode=product_barcode).first()
 
-    # Si el producto no existe en nuestra BD, búscalo en Open Food Facts y guárdalo
+    
     if not product:
         off_product_data = get_product_by_barcode(product_barcode)
         if off_product_data:
@@ -262,7 +258,7 @@ def add_favorite(user_id):
 
     # Verificar si el producto ya es favorito
     if product in user.favorites:
-        return jsonify({"message": "El producto ya está en favoritos."}), 200 # O 409 Conflict
+        return jsonify({"message": "El producto ya está en favoritos."}), 200 
 
     user.favorites.append(product)
     try:
@@ -285,7 +281,7 @@ def remove_favorite(user_id, barcode):
         return jsonify({"error": "Producto no encontrado."}), 404
 
     if product not in user.favorites:
-        return jsonify({"message": "El producto no está en favoritos de este usuario."}), 404 # O 200 OK si ya no está
+        return jsonify({"message": "El producto no está en favoritos de este usuario."}), 404 
 
     user.favorites.remove(product)
     try:
@@ -317,7 +313,6 @@ def get_favorites(user_id):
     return jsonify(favorite_products), 200
 
 
-# --- Punto de entrada para ejecutar la aplicación ---
 if __name__ == '__main__':
     # Crear las tablas en la base de datos si no existen
     with app.app_context():

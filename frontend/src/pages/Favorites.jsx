@@ -1,4 +1,3 @@
-// src/pages/Favorites.jsx
 import React, { useState, useEffect } from 'react';
 import './Favorites.css';
 
@@ -35,7 +34,7 @@ function Favorites() {
     }
   };
 
-  // Nueva función para eliminar un favorito
+  //Eliminar un favorito
   const handleDeleteFavorite = async (barcodeToDelete) => {
     if (!userId) {
       alert('Error: Debes iniciar sesión para eliminar favoritos.');
@@ -54,7 +53,7 @@ function Favorites() {
           throw new Error(data.error || data.message || 'Error al eliminar el producto de favoritos');
         }
 
-        // Si la eliminación en el backend fue exitosa, actualiza el estado local
+      
         setFavorites(favorites.filter(product => product.barcode !== barcodeToDelete));
         alert(data.message || 'Producto eliminado de favoritos.');
         console.log('Favorito eliminado:', data);
@@ -68,7 +67,7 @@ function Favorites() {
 
   useEffect(() => {
     fetchFavorites();
-  }, [userId]); // Ejecutar al cargar y si cambia el userId
+  }, [userId]); 
 
   if (loading) {
     return (

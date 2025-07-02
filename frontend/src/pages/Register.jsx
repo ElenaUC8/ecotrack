@@ -1,18 +1,17 @@
-// src/pages/Register.jsx
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Para redirigir al usuario
-import './Auth.css'; // Crearemos un CSS común para autenticación
+import { useNavigate, Link } from 'react-router-dom'; 
+import './Auth.css'; 
 
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Hook para la navegación programática
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(''); // Limpia errores anteriores
+    setError(''); 
 
     try {
       const response = await fetch('http://localhost:5000/api/users/register', {
@@ -26,7 +25,6 @@ function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Si la respuesta no es 2xx, es un error (ej. 400, 409, 500)
         throw new Error(data.error || 'Error en el registro');
       }
 
@@ -36,7 +34,7 @@ function Register() {
 
     } catch (err) {
       console.error('Error al registrar:', err.message);
-      setError(err.message); // Muestra el mensaje de error al usuario
+      setError(err.message); 
     }
   };
 
