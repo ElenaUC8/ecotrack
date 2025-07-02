@@ -64,3 +64,6 @@ Esta es la lista de los productos que se encuentran almacenados en la base de da
 
  Para añadir más productos a la base de datos, buscar en https://world.openfoodfacts.org/ y coger el código de barras del producto a añadir. Después, con el backend en ejecución, buscar la siguiente dirección: http://127.0.0.1:5000/api/products/search?barcode=(codigo de barras del producto a añadir)
  Ejemplo: Ejemplo: http://127.0.0.1:5000/api/products/search?barcode=5449000000996
+
+ ## Emisiones CO2
+ En la región a buscar las emisiones de CO2, hay que poner explícitamente "C.A. de Euskadi", ya que ésta es la única comunidad que existe en el archivo CSV y, por tanto, en la base de datos.
