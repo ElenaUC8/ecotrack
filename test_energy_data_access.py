@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 # --- Fuente de Datos 1: Leer un archivo local de Factores de Emisión ---
-EMISSION_FACTORS_FILE = "BIG-TAB.4.07.19_c.csv" 
+EMISSION_FACTORS_FILE = "backend/data/BIG-TAB.4.07.19_c.csv" 
 
 def test_load_emission_factors_from_file(file_path=EMISSION_FACTORS_FILE):
     """
